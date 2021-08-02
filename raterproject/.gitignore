@@ -1,5 +1,5 @@
 #ignoring the secret key
-settings.py
+/settings.py
 
 
 
