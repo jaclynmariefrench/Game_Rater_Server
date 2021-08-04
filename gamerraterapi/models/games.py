@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.fields import DateField, FloatField, IntegerField
+from django.db.models.fields import DateField, FloatField, IntegerField, TimeField
 
 class Games(models.Model):
     """Games Table.
@@ -8,5 +8,5 @@ class Games(models.Model):
     designer = models.CharField(max_length=500)
     year_released = DateField()
     number_of_players = IntegerField()
-    time_to_play = FloatField()
+    time_to_play = IntegerField()
     age_recommendation = IntegerField()

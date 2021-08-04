@@ -1,0 +1,73 @@
+[
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 1,
+        "fields": {
+            "label": "Strategy"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 2,
+        "fields": {
+            "label": "Dice"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 3,
+        "fields": {
+            "label": "Card"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 4,
+        "fields": {
+            "label": "Miniature"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 5,
+        "fields": {
+            "label": "Deck building"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 6,
+        "fields": {
+            "label": "Role playing"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 7,
+        "fields": {
+            "label": "Sports"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 8,
+        "fields": {
+            "label": "Adventure"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 9,
+        "fields": {
+            "label": "Cooperative"
+        }
+    },
+    {
+        "model": "gamerraterapi.categories",
+        "pk": 10,
+        "fields": {
+            "label": "Battle"
+        }
+    }
+    
+]
