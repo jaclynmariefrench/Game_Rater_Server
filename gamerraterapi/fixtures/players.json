@@ -1,0 +1,10 @@
+[
+    {
+        "model": "auth.players",
+        "pk": 1,
+        "fields": {
+            "user": "Jackie",
+            "bio": "This is a person."
+        }
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "model": "gamerraterapi.gamepics",
+        "pk": 1,
+        "fields": {
+            "player": 1,
+            "game": 3,
+            "upload_picture": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/UNO_Logo.svg/1200px-UNO_Logo.svg.png"
+        }
+    },
+    {
+        "model": "gamerraterapi.gamepics",
+        "pk": 2,
+        "fields": {
+            "player": 1,
+            "game": 4,
+            "upload_picture": "https://m.media-amazon.com/images/I/91NoQQ-p4hL._AC_SL1500_.jpg"
+        }
+    }
+]
