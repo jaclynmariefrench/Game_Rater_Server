@@ -1,10 +1,10 @@
 [
     {
-        "model": "auth.players",
+        "model": "gamerraterapi.players",
         "pk": 1,
         "fields": {
-            "user": "Jackie",
-            "bio": "This is a person."
+            "user": 1,
+            "bio": "Me"
         }
     }
 ]
