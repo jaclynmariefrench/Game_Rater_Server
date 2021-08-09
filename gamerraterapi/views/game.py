@@ -91,8 +91,8 @@ class GameView(ViewSet):
         game.year_released = request.data["year_released"]
         game.age_recommendation = request.data["age_recommendation"]
 
-        game_category = GameCategories.objects.get(pk=request.data["game_category"])
-        game.game_category = game_category
+        game_categories = GameCategories.objects.get(pk=request.data["game_categories"])
+        game.game_categories = game_categories
         game.save()
 
         # CODE FROM HANNAH vvvvv
@@ -136,9 +136,9 @@ class GameView(ViewSet):
         #    http://localhost:8000/games?category=1
         #
         # That URL will retrieve all tabletop games
-        game_category = self.request.query_params.get('categories', None)
-        if game_category is not None:
-            games = games.filter(game_category__id=game_category)
+        game_categories = self.request.query_params.get('categories', None)
+        if game_categories is not None:
+            games = games.filter(game_categories__id=game_categories)
 
         serializer = GameSerializer(
             games, many=True, context={'request': request})
