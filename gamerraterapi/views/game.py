@@ -1,4 +1,5 @@
 """View module for handling requests about games"""
+from rest_framework.views import set_rollback
 from gamerraterapi.models.game_categories import GameCategories
 from gamerraterapi.models.games import Games
 from gamerraterapi.models.players import Players
@@ -34,8 +35,8 @@ class GameView(ViewSet):
         game.year_released = request.data["year_released"]
         game.age_recommendation = request.data["age_recommendation"]
 
-        game_category = GameCategories.objects.get(pk=request.data["game_category"])
-        game.game_category = game_category
+        categories = GameCategories.objects.get(pk=request.data["categories"])
+        game.categories = categories
 
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
@@ -91,8 +92,8 @@ class GameView(ViewSet):
         game.year_released = request.data["year_released"]
         game.age_recommendation = request.data["age_recommendation"]
 
-        game_categories = GameCategories.objects.get(pk=request.data["game_categories"])
-        game.game_categories = game_categories
+        categories = GameCategories.objects.get(pk=request.data["categories"])
+        game.categories = categories
         game.save()
 
         # CODE FROM HANNAH vvvvv
@@ -136,13 +137,14 @@ class GameView(ViewSet):
         #    http://localhost:8000/games?category=1
         #
         # That URL will retrieve all tabletop games
-        game_categories = self.request.query_params.get('categories', None)
-        if game_categories is not None:
-            games = games.filter(game_categories__id=game_categories)
+        categories = self.request.query_params.get('categories', None)
+        if categories is not None:
+            games = games.filter(categories__id=categories)
 
         serializer = GameSerializer(
             games, many=True, context={'request': request})
         return Response(serializer.data)
+
 
 class GameSerializer(serializers.ModelSerializer):
     """JSON serializer for games
@@ -152,6 +154,6 @@ class GameSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Games
-        fields = ('id', 'title', 'designer', 'year_released', 'number_of_players', 'time_to_play', 'age_recommendation')
+        fields = ('id', 'title', 'designer', 'year_released', 'number_of_players', 'time_to_play', 'age_recommendation', 'categories')
         depth = 1
 
