@@ -36,13 +36,13 @@ class GameView(ViewSet):
         game.age_recommendation = request.data["age_recommendation"]
 
         categories = GameCategories.objects.get(pk=request.data["categories"])
-        game.categories = categories
 
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
         # JSON as a response to the client request
         try:
             game.save()
+            game.categories.set([categories])
             serializer = GameSerializer(game, context={'request': request})
             return Response(serializer.data)
 

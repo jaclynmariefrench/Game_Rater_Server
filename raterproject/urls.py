@@ -5,12 +5,14 @@ from django.urls import path
 from rest_framework import routers
 from django.contrib import admin
 from gamerraterapi.views import GameView
+from gamerraterapi.views import CategoriesView
 
 
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'games', GameView, 'game')
-router.register(r'categories', GameCategoriesView, 'category')
+router.register(r'gamecategories', GameCategoriesView, 'gamecategory')
+router.register(r'categories', CategoriesView, 'category')
 
 
 urlpatterns = [
