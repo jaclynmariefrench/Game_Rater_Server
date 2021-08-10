@@ -1,0 +1,20 @@
+[
+    {
+        "model": "gamerraterapi.gamereviews",
+        "pk": 1,
+        "fields": {
+            "player": 1,
+            "game":1,
+            "review": "Super fun game! Love it!"
+        }
+    },
+    {
+        "model": "gamerraterapi.gamereviews",
+        "pk": 2,
+        "fields": {
+            "player": 1,
+            "game": 2,
+            "review": "It could be better. It's a bit confusing."
+        }
+    }
+]

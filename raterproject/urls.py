@@ -1,3 +1,4 @@
+from gamerraterapi.views.gamereview import ReviewView
 from gamerraterapi.views.game_categories import GameCategoriesView
 from gamerraterapi.views.auth import login_user, register_user
 from django.conf.urls import include
@@ -13,6 +14,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'games', GameView, 'game')
 router.register(r'gamecategories', GameCategoriesView, 'gamecategory')
 router.register(r'categories', CategoriesView, 'category')
+router.register(r'gamereviews', ReviewView, 'review')
 
 
 urlpatterns = [
