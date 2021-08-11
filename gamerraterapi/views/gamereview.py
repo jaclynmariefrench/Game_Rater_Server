@@ -1,4 +1,5 @@
 """View module for handling requests about reviews"""
+from django.db.models.fields.related import ForeignKey
 from gamerraterapi.models.game_reviews import GameReviews
 from rest_framework.views import set_rollback
 from gamerraterapi.models.game_categories import GameCategories
@@ -29,11 +30,16 @@ class ReviewView(ViewSet):
         review = GameReviews()
         review.review = request.data["review"]
 
+        game = Games.objects.get(id=request.data["game"])
+        player = Players.objects.get(id=request.data["player"])
+
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
         # JSON as a response to the client request
         try:
             review.save()
+            review.game.set([game])
+            review.player.set([player])
             serializer = ReviewSerializer(review, context={'request': request})
             return Response(serializer.data)
 
