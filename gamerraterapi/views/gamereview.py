@@ -30,16 +30,16 @@ class ReviewView(ViewSet):
         review = GameReviews()
         review.review = request.data["review"]
 
-        game = Games.objects.get(id=request.data["game"])
-        player = Players.objects.get(id=request.data["player"])
+        game = Games.objects.get(pk=request.data["game"]) 
+        player = Players.objects.get(user=request.auth.user)
 
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
         # JSON as a response to the client request
         try:
+            review.game= game
+            review.player=player
             review.save()
-            review.game.set([game])
-            review.player.set([player])
             serializer = ReviewSerializer(review, context={'request': request})
             return Response(serializer.data)
 
@@ -120,12 +120,17 @@ class ReviewView(ViewSet):
         Returns:
             Response -- JSON serialized list of reviews
         """
+        # Support filtering games by id
+        #    http://localhost:8000/gamereviews?game=1
+        
+        # That URL will retrieve all tabletop games
+
         # Get all review records from the database
         reviews = GameReviews.objects.all()
-
-        player = self.request.query_params.get('players', None)
-        game = self.request.query_params.get('games', None)
-
+        
+        game = self.request.query_params.get('game', None)
+        if game is not None:
+            reviews = reviews.filter(game_id=game)
         serializer = ReviewSerializer(
             reviews, many=True, context={'request': request})
         return Response(serializer.data)
