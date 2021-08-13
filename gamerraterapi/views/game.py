@@ -44,7 +44,7 @@ class GameView(ViewSet):
             game.save()
             game.categories.set([categories])
             serializer = GameSerializer(game, context={'request': request})
-            return Response(serializer.data)
+            return Response(serializer.data) 
 
         # If anything went wrong, catch the exception and
         # send a response with a 400 status code to tell the
@@ -106,6 +106,7 @@ class GameView(ViewSet):
 
         # CODE FROM HANNAH vvvvvv
         return Response(serializer.data)
+    
     def destroy(self, request, pk=None):
         """Handle DELETE requests for a single game
 
@@ -154,6 +155,6 @@ class GameSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Games
-        fields = ('id', 'title', 'designer', 'year_released', 'number_of_players', 'time_to_play', 'age_recommendation', 'categories')
+        fields = ('id', 'title', 'designer', 'year_released', 'number_of_players', 'time_to_play', 'age_recommendation', 'categories', 'average_rating')
         depth = 1
 

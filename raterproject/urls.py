@@ -1,3 +1,4 @@
+from gamerraterapi.views.gameratings import RatingView
 from gamerraterapi.views.gamereview import ReviewView
 from gamerraterapi.views.game_categories import GameCategoriesView
 from gamerraterapi.views.auth import login_user, register_user
@@ -15,6 +16,7 @@ router.register(r'games', GameView, 'game')
 router.register(r'gamecategories', GameCategoriesView, 'gamecategory')
 router.register(r'categories', CategoriesView, 'category')
 router.register(r'gamereviews', ReviewView, 'review')
+router.register(r'gameratings', RatingView, 'rating')
 
 
 urlpatterns = [

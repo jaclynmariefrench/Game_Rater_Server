@@ -1,6 +1,6 @@
-"""View module for handling requests about reviews"""
+"""View module for handling requests about ratings"""
 from django.db.models.fields.related import ForeignKey
-from gamerraterapi.models.game_reviews import GameReviews
+from gamerraterapi.models.game_ratings import GameRatings
 from rest_framework.views import set_rollback
 from gamerraterapi.models.game_categories import GameCategories
 from gamerraterapi.models.games import Games
@@ -15,30 +15,30 @@ from rest_framework import status
 
 
 
-class ReviewView(ViewSet):
+class RatingView(ViewSet):
     """Game Rater ratings"""
 
     def create(self, request):
         """Handle POST operations
 
         Returns:
-            Response -- JSON serialized review instance
+            Response -- JSON serialized rating instance
         """
 
         # Uses the token passed in the `Authorization` header
 
-        review = GameReviews()
-        review.review = request.data["review"]
+        rating = GameRatings()
+        rating.rating = request.data["rating"]
 
-        review.game = Games.objects.get(pk=request.data["game"]) 
-        review.player = Players.objects.get(user=request.auth.user)
+        rating.game = Games.objects.get(pk=request.data["game"]) 
+        rating.player = Players.objects.get(user=request.auth.user)
 
         # Try to save the new game to the database, then
         # serialize the game instance as JSON, and send the
         # JSON as a response to the client request
         try:
-            review.save()
-            serializer = ReviewSerializer(review, context={'request': request})
+            rating.save()
+            serializer = RatingSerializer(rating, context={'request': request})
             return Response(serializer.data)
 
         # If anything went wrong, catch the exception and
@@ -50,10 +50,10 @@ class ReviewView(ViewSet):
 
 
     def retrieve(self, request, pk=None):
-        """Handle GET requests for single review
+        """Handle GET requests for single rating
 
         Returns:
-            Response -- JSON serialized review instance
+            Response -- JSON serialized rating instance
         """
         try:
             # `pk` is a parameter to this function, and
@@ -61,14 +61,14 @@ class ReviewView(ViewSet):
             #   http://localhost:8000/games/2
             #
             # The `2` at the end of the route becomes `pk`
-            review = GameReviews.objects.get(pk=pk)
-            serializer = ReviewSerializer(review, context={'request': request})
+            rating = GameRatings.objects.get(pk=pk)
+            serializer = RatingSerializer(rating, context={'request': request})
             return Response(serializer.data)
         except Exception as ex:
             return HttpResponseServerError(ex)
 
     def update(self, request, pk=None):
-        """Handle PUT requests for a review
+        """Handle PUT requests for a rating
 
         Returns:
             Response -- Empty body with 204 status code
@@ -78,14 +78,14 @@ class ReviewView(ViewSet):
         # Do mostly the same thing as POST, but instead of
         # creating a new instance of Game, get the game record
         # from the database whose primary key is `pk`
-        review = GameReviews()
-        review.review = request.data["review"]
+        rating = GameRatings()
+        rating.rating = request.data["rating"]
 
         game = Games.objects.get(pk=request.data["game"])
-        review.save()
+        rating.save()
 
         # CODE FROM HANNAH vvvvv
-        serializer = ReviewSerializer(review, context= {'request': request})
+        serializer = RatingSerializer(rating, context= {'request': request})
 
         # 204 status code means everything worked but the
         # server is not sending back any data in the response
@@ -95,52 +95,52 @@ class ReviewView(ViewSet):
         # CODE FROM HANNAH vvvvvv
         return Response(serializer.data)
     def destroy(self, request, pk=None):
-        """Handle DELETE requests for a single review
+        """Handle DELETE requests for a single rating
 
         Returns:
             Response -- 200, 404, or 500 status code
         """
         try:
-            review = GameReviews.objects.get(pk=pk)
-            review.delete()
+            rating = GameRatings.objects.get(pk=pk)
+            rating.delete()
 
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
-        except GameReviews.DoesNotExist as ex:
+        except GameRatings.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def list(self, request):
-        """Handle GET requests to review resource
+        """Handle GET requests to rating resource
 
         Returns:
-            Response -- JSON serialized list of reviews
+            Response -- JSON serialized list of ratings
         """
         # Support filtering games by id
-        #    http://localhost:8000/gamereviews?game=1
+        #    http://localhost:8000/gameratings?game=1
         
         # That URL will retrieve all tabletop games
 
-        # Get all review records from the database
-        reviews = GameReviews.objects.all()
+        # Get all rating records from the database
+        ratings = GameRatings.objects.all()
         
         game = self.request.query_params.get('game', None)
         if game is not None:
-            reviews = reviews.filter(game_id=game)
-        serializer = ReviewSerializer(
-            reviews, many=True, context={'request': request})
+            ratings = ratings.filter(game_id=game)
+        serializer = RatingSerializer(
+            ratings, many=True, context={'request': request})
         return Response(serializer.data)
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    """JSON serializer for reviews
+class RatingSerializer(serializers.ModelSerializer):
+    """JSON serializer for ratings
 
     Arguments:
         serializer category
     """
     class Meta:
-        model = GameReviews
-        fields = ('id', 'player', 'game', 'review')
+        model = GameRatings
+        fields = ('id', 'player', 'game', 'rating')
         depth = 1
